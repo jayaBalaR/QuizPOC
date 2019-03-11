@@ -48,22 +48,33 @@ export default class Question4 extends Component {
 
 					
 
-             handleOptionChange = e => {
-              if (e.target.checked) {
-                console.log(e.target.value);
-                this.selectedOption = true;
-              
-              }
-            
-            };
+						 handleChange =(e) =>{
+	
+							this.setState({
+								selectedOption : e.target.value
+						
+							});
+						
+							
+						}
 
 		handleNext = (e) => {
 			e.preventDefault();
+			if(this.state.selectedOption === this.state.ans){
+				localStorage.setItem("counter3","1");
+				
+			}else{
+				localStorage.setItem("counter3","0");
+			}
 		    this.props.history.push('/question5')
   }
 
   handlePrevious = (e) => {
-    e.preventDefault();
+		e.preventDefault();
+		if(this.state.selectedOption === this.state.ans){
+			localStorage.setItem("counter3","1");
+			
+		}
       this.props.history.push('/question3')
 }
 
@@ -73,7 +84,30 @@ export default class Question4 extends Component {
   const { qid , qtext,point, ans ,choices} = this.state;
 
 
-  
+  const data = {
+		option:["Microsoft","Google","Facebook","Yahoo"]
+		};
+		
+		const RadioButtons = props => {
+		const { names } = props;
+		return (
+		 <div>
+		 {names.map(n => (
+			 <Radio name={n} />
+		 ))}
+		 </div>
+		);
+		};
+		
+		const Radio = props => {
+		const { name } = props;
+		return (
+		 <div>
+		 <input id={name} type="radio" name="type" value={name} checked={this.state.selectedOption === name } onClick={this.handleChange.bind(this)} />
+		 <label for={name}>{name}</label>
+		 </div>
+		);
+		};
  
 
 
@@ -93,46 +127,10 @@ var names = this.state.choices;
 				<div className="labels">
 							<label for="test">{this.state.qid} {this.state.qtext}</label>
        			</div>
-       			<div>
-						
-							
-        <input type="radio" value="Microsoft" 
-                      checked={this.selectedOption} 
-                      onChange={this.handleOptionChange} />
-        Microsoft
-     
-	
-       			</div>
-						 <div>
-						
-							
-						<input type="radio" value="Google" 
-													checked={this.state.selectedOption} 
-													onChange={this.handleOptionChange} />
-						Google
-				 
-			
-								 </div>
-								 <div>
-						
-							
-						<input type="radio" value="Facebook" 
-													checked={this.state.selectedOption} 
-													onChange={this.handleOptionChange} />
-						Facebook
-				 
-			
-								 </div>
-								 <div>
-						
-							
-						<input type="radio" value="Yahoo" 
-													checked={this.state.selectedOption} 
-													onChange={this.handleOptionChange} />
-						Yahoo
-				 
-			
-								 </div>
+       	
+						 <div className="App">
+		 <RadioButtons names={data.option} />
+	 </div>	
 
                <div className="Navigation">
  					<button type="submit" className="btn btn-primary" onClick={this.handleNext} >

@@ -52,11 +52,27 @@ export default class Question5 extends Component {
 
 		handleNext = (e) => {
 			e.preventDefault();
+			if(this.state.selectedOption === this.state.ans){
+				localStorage.setItem("counter4","1");
+			}
 		    this.props.history.push('/question6')
   }
 
+  handleChange =(e) =>{
+	
+	this.setState({
+		  selectedOption : e.target.value
+  
+	  });
+	}
+
   handlePrevious = (e) => {
-    e.preventDefault();
+	e.preventDefault();
+	if(this.state.selectedOption === this.state.ans){
+		localStorage.setItem("counter4","1");
+	}else{
+		localStorage.setItem("counter4","0");
+	}
       this.props.history.push('/question4')
 }
 
@@ -67,7 +83,30 @@ export default class Question5 extends Component {
 
 
   
- 
+  const data = {
+	option:["R","Python","Matlab","Scala"]
+	};
+	
+	const RadioButtons = props => {
+	const { names } = props;
+	return (
+	 <div>
+	 {names.map(n => (
+		 <Radio name={n} />
+	 ))}
+	 </div>
+	);
+	};
+	
+	const Radio = props => {
+	const { name } = props;
+	return (
+	 <div>
+	 <input id={name} type="radio" name="type" value={name} checked={this.state.selectedOption === name } onClick={this.handleChange.bind(this)} />
+	 <label for={name}>{name}</label>
+	 </div>
+	);
+	};
 
 
 const replies = this.state.choices;
@@ -86,46 +125,9 @@ var names = this.state.choices;
 				<div className="labels">
 							<label for="test">{this.state.qid} {this.state.qtext}</label>
        			</div>
-       			<div>
-						
-							
-        <input type="radio" value="R" 
-                      checked={this.state.selectedOption === 'R'} 
-                      onChange={this.handleOptionChange} />
-        R
-     
-	
-       			</div>
-						 <div>
-						
-							
-						<input type="radio" value="Python" 
-													checked={this.state.selectedOption === 'Python'} 
-													onChange={this.handleOptionChange} />
-						Python
-				 
-			
-								 </div>
-								 <div>
-						
-							
-						<input type="radio" value="Matlab" 
-													checked={this.state.selectedOption === 'Matlab'} 
-													onChange={this.handleOptionChange} />
-						Matlab
-				 
-			
-								 </div>
-								 <div>
-						
-							
-						<input type="radio" value="Scala" 
-													checked={this.state.selectedOption === 'Scala'} 
-													onChange={this.handleOptionChange} />
-						Scala
-				 
-			
-								 </div>
+				   <div className="App">
+		 <RadioButtons names={data.option} />
+	 </div>	
 
                <div className="Navigation">
  					<button type="submit" className="btn btn-primary" onClick={this.handleNext} >

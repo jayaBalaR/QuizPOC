@@ -46,17 +46,31 @@ export default class Question6 extends Component {
 	           // exceptions from actual bugs in components.
 
 
-					
+			   handleChange =(e) =>{
+	
+				this.setState({
+					  selectedOption : e.target.value
+			  
+				  });
+				}				
 
 
 
 		handleNext = (e) => {
 			e.preventDefault();
+			if(this.state.selectedOption === this.state.ans){
+				localStorage.setItem("counter5","1");
+			}else{
+				localStorage.setItem("counter5","0");
+			}
 		    this.props.history.push('/question7')
   }
 
   handlePrevious = (e) => {
-    e.preventDefault();
+	e.preventDefault();
+	if(this.state.selectedOption === this.state.ans){
+		localStorage.setItem("counter5","1");
+	}
       this.props.history.push('/question5')
 }
 
@@ -66,17 +80,37 @@ export default class Question6 extends Component {
   const { qid , qtext,point, ans ,choices} = this.state;
 
 
-  
+  const data = {
+	option:["Cuttack","Madras","Hyderabad","Mumbai"]
+	};
+	
+	const RadioButtons = props => {
+	const { names } = props;
+	return (
+	 <div>
+	 {names.map(n => (
+		 <Radio name={n} />
+	 ))}
+	 </div>
+	);
+	};
+	
+	const Radio = props => {
+	const { name } = props;
+	return (
+	 <div>
+	 <input id={name} type="radio" name="type" value={name} checked={this.state.selectedOption === name } onClick={this.handleChange.bind(this)} />
+	 <label for={name}>{name}</label>
+	 </div>
+	);
+	};
  
 
 
-const replies = this.state.choices;
-//const listItems = replies.map((number) =>
-//  {number}
-//);
 
 
-var names = this.state.choices;
+
+
 
 
 
@@ -86,46 +120,9 @@ var names = this.state.choices;
 				<div className="labels">
 							<label for="test">{this.state.qid} {this.state.qtext}</label>
        			</div>
-       			<div>
-						
-							
-        <input type="radio" value="Cuttack" 
-                      checked={this.state.selectedOption === 'Cuttack'} 
-                      onChange={this.handleOptionChange} />
-        Cuttack
-     
-	
-       			</div>
-						 <div>
-						
-							
-						<input type="radio" value="Madras" 
-													checked={this.state.selectedOption === 'Madras'} 
-													onChange={this.handleOptionChange} />
-						Madras
-				 
-			
-								 </div>
-								 <div>
-						
-							
-						<input type="radio" value="Hyderabad" 
-													checked={this.state.selectedOption === 'Hyderabad'} 
-													onChange={this.handleOptionChange} />
-						Hyderabad
-				 
-			
-								 </div>
-								 <div>
-						
-							
-						<input type="radio" value="Mumbai" 
-													checked={this.state.selectedOption === 'Mumbai'} 
-													onChange={this.handleOptionChange} />
-						Mumbai
-				 
-			
-								 </div>
+    			   <div className="App">
+		 <RadioButtons names={data.option} />
+	 </div>	
 
                <div className="Navigation">
  					<button type="submit" className="btn btn-primary" onClick={this.handleNext} >

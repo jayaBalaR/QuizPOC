@@ -45,18 +45,32 @@ export default class Question10 extends Component {
 	           // instead of a catch() block so that we don't swallow
 	           // exceptions from actual bugs in components.
 
-
+			   handleChange =(e) =>{
+	
+				this.setState({
+					  selectedOption : e.target.value
+			  
+				  });
+				}
 					
 
 
 
 		handleNext = (e) => {
 			e.preventDefault();
+			if(this.state.selectedOption === this.state.ans){
+				localStorage.setItem("counter9","1");
+			}
 		    this.props.history.push('/question11')
   }
 
   handlePrevious = (e) => {
-    e.preventDefault();
+	e.preventDefault();
+	if(this.state.selectedOption === this.state.ans){
+		localStorage.setItem("counter9","1");
+	}else{
+		localStorage.setItem("counter9","0");
+	}
       this.props.history.push('/question9')
 }
 
@@ -66,17 +80,35 @@ export default class Question10 extends Component {
   const { qid , qtext,point, ans ,choices} = this.state;
 
 
-  
+  const data = {
+	option:["Charles Babbage","Ronald Ross","Mickey Mouse","Donald Duck"]
+	};
+	
+	const RadioButtons = props => {
+	const { names } = props;
+	return (
+	 <div>
+	 {names.map(n => (
+		 <Radio name={n} />
+	 ))}
+	 </div>
+	);
+	};
+	
+	const Radio = props => {
+	const { name } = props;
+	return (
+	 <div>
+	 <input id={name} type="radio" name="type" value={name} checked={this.state.selectedOption === name } onClick={this.handleChange.bind(this)} />
+	 <label for={name}>{name}</label>
+	 </div>
+	);
+	};
+
  
 
 
-const replies = this.state.choices;
-//const listItems = replies.map((number) =>
-//  {number}
-//);
 
-
-var names = this.state.choices;
 
 
 
@@ -86,47 +118,10 @@ var names = this.state.choices;
 				<div className="labels">
 							<label for="test">{this.state.qid} {this.state.qtext}</label>
        			</div>
-       			<div>
-						
-							
-        <input type="radio" value="Charles Babbage" 
-                      checked={this.state.selectedOption === 'Charles Babbage'} 
-                      onChange={this.handleOptionChange} />
-        Charles Babbage
-     
-	
-       			</div>
-						 <div>
-						
-							
-						<input type="radio" value="Ronald Ross" 
-													checked={this.state.selectedOption === 'Ronald Ross'} 
-													onChange={this.handleOptionChange} />
-						Ronald Ross
-				 
-			
-								 </div>
-								 <div>
-						
-							
-						<input type="radio" value="Mickey Mouse" 
-													checked={this.state.selectedOption === 'Mickey Mouse'} 
-													onChange={this.handleOptionChange} />
-						Mickey Mouse
-				 
-			
-								 </div>
-								 <div>
-						
-							
-						<input type="radio" value="Donald Duck" 
-													checked={this.state.selectedOption === 'Donald Duck'} 
-													onChange={this.handleOptionChange} />
-						Donald Duck
-				 
-			
-								 </div>
-
+       		
+				   <div className="App">
+		 <RadioButtons names={data.option} />
+	 </div>	
                <div className="Navigation">
  					<button type="submit" className="btn btn-primary" onClick={this.handleNext} >
 		                Next

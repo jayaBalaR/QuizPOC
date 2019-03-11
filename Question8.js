@@ -47,17 +47,32 @@ export default class Question8 extends Component {
 
 
 					
-
+			   handleChange =(e) =>{
+	
+				this.setState({
+					  selectedOption : e.target.value
+			  
+				  });
+				}	
 
 
 		handleNext = (e) => {
 			e.preventDefault();
+			if(this.state.selectedOption === this.state.ans){
+				alert("success")
+				localStorage.setItem("counter7","1");
+			}else{
+				localStorage.setItem("counter7","0");
+			}
 		    this.props.history.push('/question9')
   }
 
   handlePrevious = (e) => {
-    e.preventDefault();
-      this.props.history.push('/question8')
+	e.preventDefault();
+	if(this.state.selectedOption === this.state.ans){
+		localStorage.setItem("counter7","1");
+	}
+      this.props.history.push('/question7')
 }
 
 
@@ -65,12 +80,36 @@ export default class Question8 extends Component {
 
   const { qid , qtext,point, ans ,choices} = this.state;
 
+  const data = {
+	option:["Alexander Graham Bell","Christopher Columbus","Napoleon Bonaparte","George W Bush"]
+	};
+	
+	const RadioButtons = props => {
+	const { names } = props;
+	return (
+	 <div>
+	 {names.map(n => (
+		 <Radio name={n} />
+	 ))}
+	 </div>
+	);
+	};
+	
+	const Radio = props => {
+	const { name } = props;
+	return (
+	 <div>
+	 <input id={name} type="radio" name="type" value={name} checked={this.state.selectedOption === name } onClick={this.handleChange.bind(this)} />
+	 <label for={name}>{name}</label>
+	 </div>
+	);
+	};
 
   
  
 
 
-const replies = this.state.choices;
+
 //const listItems = replies.map((number) =>
 //  {number}
 //);
@@ -86,46 +125,9 @@ var names = this.state.choices;
 				<div className="labels">
 							<label for="test">{this.state.qid} {this.state.qtext}</label>
        			</div>
-       			<div>
-						
-							
-        <input type="radio" value="Alexander Graham Bell" 
-                      checked={this.state.selectedOption === 'Alexander Graham Bell'} 
-                      onChange={this.handleOptionChange} />
-        Alexander Graham Bell
-     
-	
-       			</div>
-						 <div>
-						
-							
-						<input type="radio" value="Christopher Columbus" 
-													checked={this.state.selectedOption === 'Christopher Columbus'} 
-													onChange={this.handleOptionChange} />
-						Christopher Columbus
-				 
-			
-								 </div>
-								 <div>
-						
-							
-						<input type="radio" value="Napoleon Bonaparte" 
-													checked={this.state.selectedOption === 'Napoleon Bonaparte'} 
-													onChange={this.handleOptionChange} />
-						Napoleon Bonaparte
-				 
-			
-								 </div>
-								 <div>
-						
-							
-						<input type="radio" value="George W Bush" 
-													checked={this.state.selectedOption === 'George W Bush'} 
-													onChange={this.handleOptionChange} />
-						George W Bush
-				 
-			
-								 </div>
+				   <div className="App">
+		 <RadioButtons names={data.option} />
+	 </div>	
 
                <div className="Navigation">
  					<button type="submit" className="btn btn-primary" onClick={this.handleNext} >

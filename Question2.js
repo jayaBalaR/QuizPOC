@@ -48,41 +48,71 @@ export default class Question2 extends Component {
 
 
 					
-
+						 handleChange =(e) =>{
+	
+							this.setState({
+									selectedOption : e.target.value
+							
+								});
+							}				
+			
 
 
 		handleNext = (e) => {
 			e.preventDefault();
+			if(this.state.selectedOption === this.state.ans){
+				alert("success");
+				localStorage.setItem("counter1","1");
+			 }else{
+				localStorage.setItem("counter1","0");
+			 }
 		    this.props.history.push('/question3')
 	}
 	
-	handleOptionChange = e => {
-		if (e.target.checked) {
-			console.log(e.target.value);
-			if(e.target.value === this.state.answer )
-			this.props.counter +=1;
-		
-		}
-	
-	};
+
 
 
  render() {
 
   const { qid , qtext,point, ans ,choices} = this.state;
+   
+  const data = {
+	option:["West","East","North","south"]
+};
 
-
+ 
+  
+	const RadioButtons = props => {
+		const { names } = props;
+		return (
+		 <div>
+		 {names.map(n => (
+			 <Radio name={n} />
+		 ))}
+		 </div>
+		);
+		};
+		
+		const Radio = props => {
+		const { name } = props;
+		return (
+		 <div>
+		 <input id={name} type="radio" name="type" value={name} checked={this.state.selectedOption === name } onClick={this.handleChange.bind(this)} />
+		 <label for={name}>{name}</label>
+		 </div>
+		);
+		};
   
  
 
 
-const replies = this.state.choices;
+
 //const listItems = replies.map((number) =>
 //  {number}
 //);
 
+alert (this.state.qtext);
 
-var names = this.state.choices;
 
 
 
@@ -92,46 +122,15 @@ var names = this.state.choices;
 				<div className="labels">
 							<label for="test">{this.state.qid} {this.state.qtext}</label>
        			</div>
-       			<div>
+       			
 						
-							
-        <input type="radio" value="West" 
-                      checked={this.state.selectedOption}
-                      onChange={this.handleOptionChange} />
-        West
-     
-	
-       			</div>
-						 <div>
-						
-							
-						<input type="radio" value="East" 
-                      checked={this.state.selectedOption}
-                      onChange={this.handleOptionChange} />
-						East
-				 
+
+		  <div className="App">
+      	<RadioButtons names={data.option} />
+   	 </div>							
+       
+						 
 			
-								 </div>
-								 <div>
-						
-							
-						<input type="radio" value="North" 
-                      checked={this.state.selectedOption}
-                      onChange={this.handleOptionChange} />
-						North
-				 
-			
-								 </div>
-								 <div>
-						
-							
-						<input type="radio" value="South" 
-                      checked={this.state.selectedOption}
-                      onChange={this.handleOptionChange} />
-						South
-				 
-			
-								 </div>
 
                <div className="Navigation">
  					<button type="submit" className="btn btn-primary" onClick={this.handleNext} >
